@@ -68,7 +68,7 @@ function ProfilePageClient({
     const result = await updateProfile(formData);
     if (result.success) {
       setShowEditDialog(false);
-      toast.success("Profile updated successfully");
+      toast.success("프로필이 성공적으로 업데이트되었습니다");
     }
   };
 
@@ -80,7 +80,7 @@ function ProfilePageClient({
       await toggleFollow(user.id);
       setIsFollowing(!isFollowing);
     } catch (error) {
-      toast.error("Failed to update follow status");
+      toast.error("팔로우 상태 업데이트에 실패했습니다");
     } finally {
       setIsUpdatingFollow(false);
     }
@@ -106,35 +106,35 @@ function ProfilePageClient({
                 <p className="text-muted-foreground">@{user.username}</p>
                 <p className="mt-2 text-sm">{user.bio}</p>
 
-                {/* PROFILE STATS */}
+                {/* 프로필 통계 */}
                 <div className="w-full mt-6">
                   <div className="flex justify-between mb-4">
                     <div>
                       <div className="font-semibold">{user._count.following.toLocaleString()}</div>
-                      <div className="text-sm text-muted-foreground">Following</div>
+                      <div className="text-sm text-muted-foreground">팔로잉</div>
                     </div>
                     <Separator orientation="vertical" />
                     <div>
                       <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
-                      <div className="text-sm text-muted-foreground">Followers</div>
+                      <div className="text-sm text-muted-foreground">팔로워</div>
                     </div>
                     <Separator orientation="vertical" />
                     <div>
                       <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
-                      <div className="text-sm text-muted-foreground">Posts</div>
+                      <div className="text-sm text-muted-foreground">게시물</div>
                     </div>
                   </div>
                 </div>
 
-                {/* "FOLLOW & EDIT PROFILE" BUTTONS */}
+                {/* "팔로우 & 프로필 편집" 버튼 */}
                 {!currentUser ? (
                   <SignInButton mode="modal">
-                    <Button className="w-full mt-4">Follow</Button>
+                    <Button className="w-full mt-4">팔로우</Button>
                   </SignInButton>
                 ) : isOwnProfile ? (
                   <Button className="w-full mt-4" onClick={() => setShowEditDialog(true)}>
                     <EditIcon className="size-4 mr-2" />
-                    Edit Profile
+                    프로필 편집
                   </Button>
                 ) : (
                   <Button
@@ -143,11 +143,11 @@ function ProfilePageClient({
                     disabled={isUpdatingFollow}
                     variant={isFollowing ? "outline" : "default"}
                   >
-                    {isFollowing ? "Unfollow" : "Follow"}
+                    {isFollowing ? "언팔로우" : "팔로우"}
                   </Button>
                 )}
 
-                {/* LOCATION & WEBSITE */}
+                {/* 위치 & 웹사이트 */}
                 <div className="w-full mt-6 space-y-2 text-sm">
                   {user.location && (
                     <div className="flex items-center text-muted-foreground">
@@ -172,7 +172,7 @@ function ProfilePageClient({
                   )}
                   <div className="flex items-center text-muted-foreground">
                     <CalendarIcon className="size-4 mr-2" />
-                    Joined {formattedDate}
+                    가입일 {formattedDate}
                   </div>
                 </div>
               </div>
@@ -188,7 +188,7 @@ function ProfilePageClient({
                data-[state=active]:bg-transparent px-6 font-semibold"
             >
               <FileTextIcon className="size-4" />
-              Posts
+              게시물
             </TabsTrigger>
             <TabsTrigger
               value="likes"
@@ -196,7 +196,7 @@ function ProfilePageClient({
                data-[state=active]:bg-transparent px-6 font-semibold"
             >
               <HeartIcon className="size-4" />
-              Likes
+              좋아요
             </TabsTrigger>
           </TabsList>
 
@@ -205,7 +205,7 @@ function ProfilePageClient({
               {posts.length > 0 ? (
                 posts.map((post) => <PostCard key={post.id} post={post} dbUserId={user.id} />)
               ) : (
-                <div className="text-center py-8 text-muted-foreground">No posts yet</div>
+                <div className="text-center py-8 text-muted-foreground">아직 게시물이 없습니다</div>
               )}
             </div>
           </TabsContent>
@@ -215,7 +215,7 @@ function ProfilePageClient({
               {likedPosts.length > 0 ? (
                 likedPosts.map((post) => <PostCard key={post.id} post={post} dbUserId={user.id} />)
               ) : (
-                <div className="text-center py-8 text-muted-foreground">No liked posts to show</div>
+                <div className="text-center py-8 text-muted-foreground">표시할 좋아요가 없습니다</div>
               )}
             </div>
           </TabsContent>
@@ -224,52 +224,52 @@ function ProfilePageClient({
         <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>Edit Profile</DialogTitle>
+              <DialogTitle>프로필 편집</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label>Name</Label>
+                <Label>이름</Label>
                 <Input
                   name="name"
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  placeholder="Your name"
+                  placeholder="이름"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Bio</Label>
+                <Label>소개</Label>
                 <Textarea
                   name="bio"
                   value={editForm.bio}
                   onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
                   className="min-h-[100px]"
-                  placeholder="Tell us about yourself"
+                  placeholder="자기소개를 입력하세요"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Location</Label>
+                <Label>위치</Label>
                 <Input
                   name="location"
                   value={editForm.location}
                   onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
-                  placeholder="Where are you based?"
+                  placeholder="위치를 입력하세요"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Website</Label>
+                <Label>웹사이트</Label>
                 <Input
                   name="website"
                   value={editForm.website}
                   onChange={(e) => setEditForm({ ...editForm, website: e.target.value })}
-                  placeholder="Your personal website"
+                  placeholder="개인 웹사이트"
                 />
               </div>
             </div>
             <div className="flex justify-end gap-3">
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline">취소</Button>
               </DialogClose>
-              <Button onClick={handleEditSubmit}>Save Changes</Button>
+              <Button onClick={handleEditSubmit}>변경 사항 저장</Button>
             </div>
           </DialogContent>
         </Dialog>

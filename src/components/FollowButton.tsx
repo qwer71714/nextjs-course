@@ -30,7 +30,7 @@ function FollowButton({ userId }: { userId: string }) {
       disabled={isLoading}
       className="w-20"
     >
-      {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "Follow"}
+      {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "팔로우"}
     </Button>
   );
 }

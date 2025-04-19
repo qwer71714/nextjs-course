@@ -25,16 +25,16 @@ function CreatePost() {
     try {
       const result = await createPost(content, imageUrl);
       if (result?.success) {
-        // reset the form
+        // 폼 초기화
         setContent("");
         setImageUrl("");
         setShowImageUpload(false);
 
-        toast.success("Post created successfully");
+        toast.success("게시물이 성공적으로 생성되었습니다");
       }
     } catch (error) {
-      console.error("Failed to create post:", error);
-      toast.error("Failed to create post");
+      console.error("게시물 생성 실패:", error);
+      toast.error("게시물 생성 실패");
     } finally {
       setIsPosting(false);
     }
@@ -49,7 +49,7 @@ function CreatePost() {
               <AvatarImage src={user?.imageUrl || "/avatar.png"} />
             </Avatar>
             <Textarea
-              placeholder="What's on your mind?"
+              placeholder="무슨 생각을 하고 계신가요?"
               className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-0 text-base"
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -92,12 +92,12 @@ function CreatePost() {
               {isPosting ? (
                 <>
                   <Loader2Icon className="size-4 mr-2 animate-spin" />
-                  Posting...
+                  게시 중...
                 </>
               ) : (
                 <>
                   <SendIcon className="size-4 mr-2" />
-                  Post
+                  게시
                 </>
               )}
             </Button>
